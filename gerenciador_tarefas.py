@@ -24,7 +24,16 @@ def adicionar_tarefa(prioridade: bool, tarefa: str):
     # do tipo ValueError com a mensagem "Prioridade inválida"
     # Caso a tarefa já exista na lista, levante uma exceção do tipo ValueError
     # com a mensagem "Tarefa já existe"
-    raise NotImplementedError("Adicionar tarefas não implementado")
+    if prioridade not in [True, False]:
+        raise ValueError("Prioridade inválida")
+
+    for item in lista_de_tarefas:
+        if item["tarefa"] == tarefa:
+            raise ValueError("Tarefa já existe")
+
+    nova_tarefa = {"prioridade": prioridade, "tarefa": tarefa}
+    lista_de_tarefas.append(nova_tarefa)
+
 
 
 def remove_tarefas(índices: tuple[int]):
@@ -34,12 +43,18 @@ def remove_tarefas(índices: tuple[int]):
 
     Args:
         índices (tuple[int]): tupla de inteiros que representam os índices das tarefas
-                             que devem ser removidas da lista.
+                            que devem ser removidas da lista.
     """
     # TODO: coloque o código aqui para remover um tarefa na lista
     # Caso a tarefa não exista na lista, levante uma exceção do tipo ValueError
     # com a mensagem "Tarefa não existe"
-    raise NotImplementedError("Remover tarefas não implementado")
+    c = 0
+    for i in índices:
+        del lista_de_tarefas[i - c]    
+        c = c + 1
+
+    if not índices:
+        raise ValueError("Tarefa não existe")
 
 
 def encontra_tarefa(tarefa: str) -> int:
@@ -53,7 +68,11 @@ def encontra_tarefa(tarefa: str) -> int:
     # TODO: coloque o código aqui para encontrar um tarefa na lista
     # Caso a tarefa não exista na lista, levante uma exceção do tipo ValueError
     # com a mensagem "Tarefa não existe"
-    raise NotImplementedError("Encontrar tarefas não implementado")
+    for i in lista_de_tarefas:
+        if tarefa == i["tarefa"]:
+            return lista_de_tarefas.index(i)
+    
+    raise ValueError("Tarefa não existe")
 
 
 def ordena_por_prioridade():
@@ -68,8 +87,7 @@ def ordena_por_prioridade():
     # não prioritárias.
     # As tarefas prioritárias devem ser ordenadas por ordem alfabética e as
     # tarefas não prioritárias devem ser ordenadas por ordem alfabética.
-    raise NotImplementedError("Ordenar tarefas não implementado")
-
+    lista_de_tarefas.sort(key=lambda tarefa: (not tarefa["prioridade"], tarefa["tarefa"]))
 
 def get_lista_de_tarefas():
     """
